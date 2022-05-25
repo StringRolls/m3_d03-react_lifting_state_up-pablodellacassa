@@ -7,52 +7,48 @@ const initialTasks = [
     _id: "1a",
     name: "Task1",
     description: "Do something important",
-    isDone: false
+    isDone: false,
   },
   {
     _id: "2b",
     name: "Task2",
     description: "Do something important",
-    isDone: false
+    isDone: false,
   },
   {
     _id: "3c",
     name: "Task3",
     description: "Do something important",
-    isDone: false
+    isDone: false,
   },
 ];
-
 
 function ToDoList() {
   const [tasks, setTasks] = useState(initialTasks);
   const [tasksCompleted, setTasksCompleted] = useState(0);
 
-
   const toggleTaskDone = (id) => {
-    const tasksCopy = [...tasks];
-      
-    tasksCopy.forEach((task) => {
-      // Find the selected task and update task's `isDone` property,
+    const copiedTasks = [...tasks]; // 1. []  2. ...tasks
+    copiedTasks.forEach((task) => {
       if (task._id === id) {
-        task.isDone = task.isDone ? false : true;
-
+        task.isDone = !task.isDone;
         // then update `tasksCompleted` state variable
         if (task.isDone) setTasksCompleted(tasksCompleted + 1);
-        else if (!task.isDone) setTasksCompleted(tasksCompleted - 1);        
+        else setTasksCompleted(tasksCompleted - 1);
       }
+    });
 
-      setTasks(tasksCopy);
-    }); 
-  }
+    setTasks(copiedTasks);
+  };
 
-  
   return (
     <div>
-      <Summary tasksCompleted={tasksCompleted}/>
+      <Summary tasksCompleted={tasksCompleted} />
 
       <div className="todo-container">
-        {tasks.map((task) => <Task key={task._id} task={task}  toggleTask={toggleTaskDone} /> )}
+        {tasks.map((task) => (
+          <Task key={task._id} task={task} toggleTask={toggleTaskDone} />
+        ))}
       </div>
     </div>
   );
